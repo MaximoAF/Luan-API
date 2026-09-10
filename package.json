@@ -1,0 +1,13 @@
+{
+  "name": "luan-essence",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:api": "npm --prefix apps/api run start:dev",
+    "dev:web": "npm --prefix apps/web run dev",
+    "build": "npm --prefix apps/web run build && mkdir -p apps/api/public && cp -r apps/web/dist/* apps/api/public/",
+    "start": "npm --prefix apps/api run start:prod"
+  }
+}

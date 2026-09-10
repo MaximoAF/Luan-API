@@ -1,0 +1,9 @@
+node_modules/
+dist/
+build/
+.env
+.env.local
+apps/api/public/*
+!apps/api/public/.gitkeep
+*.log
+.DS_Store
