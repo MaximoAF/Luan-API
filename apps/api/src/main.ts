@@ -5,6 +5,7 @@ import { join } from 'path';
 
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
+
 import { Request, Response, NextFunction } from 'express';
 import * as express from 'express';
 
@@ -14,6 +15,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.setGlobalPrefix('api');
+
   app.enableCors();
 
   app.useGlobalPipes(
@@ -33,7 +35,7 @@ async function bootstrap() {
     expressApp.use(express.static(publicDir));
 
     expressApp.get(
-      '*',
+      '/{*splat}',
       (req: Request, res: Response, next: NextFunction) => {
         if (
           req.path.startsWith('/api') ||
