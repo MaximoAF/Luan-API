@@ -8,11 +8,10 @@ export default function Hero({ perfumeCount, offerCount, upcomingCount }: HeroPr
   return (
     <section className="hero">
       <div className="hero-copy">
-        <span className="eyebrow">Stock real · sin pasarela de pago</span>
-        <h1>Fragancias con carácter, disponibilidad a la vista.</h1>
+        <span className="eyebrow">Stock real · encontrá lo que buscás</span>
+        <h1>Un perfume es mucho más que una fragancia: es una forma de expresar identidad, personalidad, elegancia y estilo.</h1>
         <p>
-          Catálogo curado de perfumes por familia olfativa. Mirá el stock disponible de cada
-          frasco y consultanos directo por WhatsApp para coordinar tu compra.
+          Explorá nuestro catálogo y descubrí nuestra amplia variedad de fragancias y familias olfativas. Mirá el catálogo y encontrá la fragancia perfecta para vos. Si tenés alguna consulta o buscás un perfume en particular, no dudes en contactarnos.
         </p>
         <div className="hero-stats">
           <div>

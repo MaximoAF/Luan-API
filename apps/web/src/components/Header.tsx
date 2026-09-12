@@ -7,7 +7,7 @@ export default function Header() {
 
   return (
     <header className="client-header">
-      <a href="/" className="logo">
+      <a href="/admin" className="logo">
         <img src={luanLogo} className="logo" alt="LuAn Essence" />
 
         <div>

@@ -1,18 +1,20 @@
-import { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
-import Dashboard from './Dashboard';
-import InventoryTable from './InventoryTable';
-import OffersPanel from './OffersPanel';
-import UpcomingAdminPanel from './UpcomingAdminPanel';
-import type { Perfume, ProximoIngreso } from '../types';
+import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import Dashboard from "./Dashboard";
+import InventoryTable from "./InventoryTable";
+import OffersPanel from "./OffersPanel";
+import UpcomingAdminPanel from "./UpcomingAdminPanel";
+import type { Perfume, ProximoIngreso } from "../types";
+import luanLogo from "../assets/luanLogo.png";
+import { useNavigate } from "react-router-dom";
 
-type TabId = 'dashboard' | 'inventario' | 'ofertas' | 'ingresos';
+type TabId = "dashboard" | "inventario" | "ofertas" | "ingresos";
 
 const TABS: { id: TabId; label: string }[] = [
-  { id: 'dashboard', label: 'Dashboard' },
-  { id: 'inventario', label: 'Inventario' },
-  { id: 'ofertas', label: 'Ofertas' },
-  { id: 'ingresos', label: 'Próximos ingresos' },
+  { id: "dashboard", label: "Dashboard" },
+  { id: "inventario", label: "Inventario" },
+  { id: "ofertas", label: "Ofertas" },
+  { id: "ingresos", label: "Próximos ingresos" },
 ];
 
 interface AdminLayoutProps {
@@ -21,21 +23,29 @@ interface AdminLayoutProps {
   reload: () => void;
 }
 
-export default function AdminLayout({ perfumes, upcoming, reload }: AdminLayoutProps) {
-  const [tab, setTab] = useState<TabId>('dashboard');
+export default function AdminLayout({
+  perfumes,
+  upcoming,
+  reload,
+}: AdminLayoutProps) {
+  const [tab, setTab] = useState<TabId>("dashboard");
   const { logout } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <div className="admin-shell">
       <aside className="admin-sidebar">
-        <div className="brand">
-          <span className="logo-main">LuAn</span>
-          <small>PANEL ADMIN</small>
+        <div className="brand" onClick={() => navigate("/")}>
+          <img src={luanLogo} className="logo" alt="LuAn Essence" />
+          <div>
+            <span className="logo-main">LuAn</span>
+            <small>PANEL ADMIN</small>
+          </div>
         </div>
         {TABS.map((t) => (
           <button
             key={t.id}
-            className={`admin-nav-item ${tab === t.id ? 'active' : ''}`}
+            className={`admin-nav-item ${tab === t.id ? "active" : ""}`}
             onClick={() => setTab(t.id)}
           >
             {t.label}
@@ -55,10 +65,18 @@ export default function AdminLayout({ perfumes, upcoming, reload }: AdminLayoutP
           </div>
         </div>
 
-        {tab === 'dashboard' && <Dashboard perfumes={perfumes} upcoming={upcoming} />}
-        {tab === 'inventario' && <InventoryTable perfumes={perfumes} reload={reload} />}
-        {tab === 'ofertas' && <OffersPanel perfumes={perfumes} reload={reload} />}
-        {tab === 'ingresos' && <UpcomingAdminPanel upcoming={upcoming} reload={reload} />}
+        {tab === "dashboard" && (
+          <Dashboard perfumes={perfumes} upcoming={upcoming} />
+        )}
+        {tab === "inventario" && (
+          <InventoryTable perfumes={perfumes} reload={reload} />
+        )}
+        {tab === "ofertas" && (
+          <OffersPanel perfumes={perfumes} reload={reload} />
+        )}
+        {tab === "ingresos" && (
+          <UpcomingAdminPanel upcoming={upcoming} reload={reload} />
+        )}
       </main>
     </div>
   );
