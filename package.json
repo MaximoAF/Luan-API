@@ -7,7 +7,7 @@
   "scripts": {
     "dev:api": "npm --prefix apps/api run start:dev",
     "dev:web": "npm --prefix apps/web run dev",
-    "build": "npm --prefix apps/web run build && mkdir -p apps/api/public && cp -r apps/web/dist/* apps/api/public/",
+    "build": "npm --prefix apps/api run prisma:generate && npm --prefix apps/web run build && rm -rf apps/api/public && mkdir -p apps/api/public && cp -r apps/web/dist/. apps/api/public/ && npm --prefix apps/api run build",
     "start": "npm --prefix apps/api run start:prod"
   }
 }

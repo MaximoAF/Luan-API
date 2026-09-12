@@ -44,8 +44,7 @@ button{font-family:inherit; cursor:pointer;}
   padding:20px 40px; border-bottom:1px solid var(--line);
   position:sticky; top:0; background:rgba(21,16,13,.92); backdrop-filter:blur(6px); z-index:100;
 }
-.logo{display:flex; align-items:center; gap:10px;}
-.logo svg{width:20px; height:34px;}
+.logo{display:flex; align-items:center; gap:10px; width:60px; height:60px;}
 .logo-main{font-family:'Fraunces', serif; font-size:22px; letter-spacing:.5px; font-weight:500; display:block;}
 .logo small{display:block; font-family:'IBM Plex Mono'; font-size:9px; letter-spacing:2.5px; color:var(--muted); margin-top:-2px;}
 nav.main-nav{display:flex; gap:32px;}
@@ -92,11 +91,35 @@ nav.main-nav a:hover{color:var(--gold-soft);}
 .fam-fresco{background:linear-gradient(160deg,#0f3236,#5fa9ab);}
 
 .offer-badge{position:absolute; top:10px; left:10px; z-index:2; background:var(--rosewood); color:var(--ivory); font-size:10px; font-weight:600; padding:4px 9px; border-radius:12px; letter-spacing:.5px; font-family:'IBM Plex Mono';}
-.stock-badge{position:absolute; top:10px; right:10px; z-index:2; font-size:10px; font-family:'IBM Plex Mono'; padding:4px 8px; border-radius:12px; letter-spacing:.5px;}
-.stock-badge.good{background:rgba(124,138,102,.25); color:var(--sage); border:1px solid var(--sage);}
-.stock-badge.low{background:rgba(198,161,91,.2); color:var(--gold-soft); border:1px solid var(--gold);}
-.stock-badge.critical{background:rgba(147,80,62,.25); color:#e0a596; border:1px solid var(--rosewood);}
-.stock-badge.empty{background:rgba(255,255,255,.05); color:var(--muted); border:1px solid var(--line);}
+.stock-badge{
+  position:absolute; top:10px; right:10px; z-index:3;
+  display:flex; align-items:center; gap:6px;
+  font-size:10.5px; font-weight:700; letter-spacing:.6px; text-transform:uppercase;
+  font-family:'IBM Plex Mono';
+  padding:6px 10px; border-radius:14px;
+  backdrop-filter:blur(4px);
+  box-shadow:0 2px 8px rgba(0,0,0,.4);
+}
+.stock-badge::before{content:''; width:7px; height:7px; border-radius:50%; flex-shrink:0;}
+.stock-badge.good{background:rgba(15,12,9,.78); color:#b9d19a; border:1px solid var(--sage);}
+.stock-badge.good::before{background:var(--sage);}
+.stock-badge.low{background:rgba(15,12,9,.82); color:var(--gold-soft); border:1px solid var(--gold);}
+.stock-badge.low::before{background:var(--gold); box-shadow:0 0 0 3px rgba(198,161,91,.3);}
+.stock-badge.critical{
+  background:rgba(15,12,9,.85); color:#ffb09b; border:1px solid var(--rosewood);
+  animation:pulse-critical 1.8s ease-in-out infinite;
+}
+.stock-badge.critical::before{background:#ff6b4d;}
+.stock-badge.empty{background:rgba(0,0,0,.75); color:#e7e2d8; border:1px solid rgba(255,255,255,.3);}
+.stock-badge.empty::before{background:#8a8a8a;}
+
+@keyframes pulse-critical{
+  0%, 100% { box-shadow:0 2px 8px rgba(0,0,0,.4); }
+  50%      { box-shadow:0 2px 16px rgba(147,80,62,.7); }
+}
+
+/* Agotado: apaga la foto entera, no solo el badge */
+.card-media.is-empty .card-media-img{ filter:grayscale(85%) brightness(.5); }
 
 .card-body{padding:16px 18px 20px; display:flex; flex-direction:column; gap:6px; flex:1;}
 .card-body .family{font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); font-family:'IBM Plex Mono';}
@@ -235,18 +258,43 @@ table.inv-table tr:hover{background:rgba(255,255,255,.015);}
 .btn-primary:disabled{opacity:.6; cursor:default;}
 
 /* edit modal */
-.edit-modal{background:var(--ink-2); border:1px solid var(--line); border-radius:var(--radius-lg); width:100%; max-width:420px; padding:28px;}
-.edit-modal h3{font-size:19px; margin-bottom:4px;}
-.edit-modal .sku{font-family:'IBM Plex Mono'; font-size:11px; color:var(--muted); margin-bottom:18px; display:block;}
-.edit-form{display:flex; flex-direction:column; gap:14px;}
+.edit-modal{
+  background:var(--ink-2); border:1px solid var(--line); border-radius:var(--radius-lg);
+  width:100%; max-width:460px; max-height:88vh;
+  display:flex; flex-direction:column; overflow:hidden;
+}
+.edit-modal-header{padding:22px 28px 16px; border-bottom:1px solid var(--line); flex-shrink:0;}
+.edit-modal-header h3{font-size:19px; margin-bottom:4px;}
+.edit-modal-header .sku{font-family:'IBM Plex Mono'; font-size:11px; color:var(--muted); display:block;}
+
+.edit-form{display:flex; flex-direction:column; flex:1; min-height:0;}
+
+.edit-modal-body{
+  padding:20px 28px; overflow-y:auto; flex:1; min-height:0;
+  display:flex; flex-direction:column; gap:14px;
+}
+.edit-modal-body::-webkit-scrollbar{width:8px;}
+.edit-modal-body::-webkit-scrollbar-thumb{background:var(--line); border-radius:4px;}
+.edit-modal-body::-webkit-scrollbar-track{background:transparent;}
+.form-section-label{
+  font-family:'IBM Plex Mono'; font-size:10.5px; letter-spacing:1.5px; text-transform:uppercase;
+  color:var(--gold); margin:4px 0 -4px;
+}
+.form-section-label:first-child{margin-top:0;}
 .edit-form .row{display:flex; gap:12px;}
 .edit-form .row .field{flex:1;}
-.edit-actions{display:flex; justify-content:flex-end; gap:10px; margin-top:8px;}
+.field input:focus, .field select:focus{
+  outline:none; border-color:var(--gold); box-shadow:0 0 0 3px rgba(198,161,91,.15);
+}
+.edit-modal-footer{
+  padding:16px 28px; border-top:1px solid var(--line); flex-shrink:0;
+  display:flex; justify-content:flex-end; gap:10px; background:var(--ink-2);
+}
 .btn-ghost{background:none; border:1px solid var(--line); color:var(--muted); padding:9px 18px; border-radius:4px; font-size:13px;}
 
 /* imagenes */
 .card-media-img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;}
-.pm-media-img{position:relative; z-index:1; max-width:100%; max-height:220px; object-fit:cover; border-radius:var(--radius);}
+.pm-media-img{position:relative; z-index:1; width:100%; height:100%; object-fit:cover; border-radius:var(--radius);}
 .mini-swatch-img{width:30px; height:30px; border-radius:5px; object-fit:cover; flex-shrink:0;}
 .edit-image-preview{width:100%; max-height:160px; object-fit:cover; border-radius:var(--radius); margin-bottom:8px; border:1px solid var(--line);}
 .edit-image-actions{display:flex; gap:10px; margin-top:8px;}

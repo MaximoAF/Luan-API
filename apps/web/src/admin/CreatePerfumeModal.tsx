@@ -109,166 +109,100 @@ export default function CreatePerfumeModal({
     }
   }
 
-  return (
-    <div
-      className="modal-backdrop active"
-      onClick={(e) => e.target === e.currentTarget && onClose()}
-    >
+    return (
+    <div className="modal-backdrop active" onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div className="edit-modal">
-        <h3>Nuevo perfume</h3>
-        <span className="sku">Completá los datos del catálogo</span>
+        <div className="edit-modal-header">
+          <h3>Nuevo perfume</h3>
+          <span className="sku">Completá los datos del catálogo</span>
+        </div>
 
         <form className="edit-form" onSubmit={handleSubmit}>
-          <div className="row">
+          <div className="edit-modal-body">
+            <span className="form-section-label">Identificación</span>
+            <div className="row">
+              <div className="field">
+                <label>SKU</label>
+                <input className="mono" value={sku} onChange={(e) => setSku(e.target.value)} placeholder="FR-011" required />
+              </div>
+              <div className="field">
+                <label>FAMILIA</label>
+                <select value={familyIdx} onChange={(e) => setFamilyIdx(Number(e.target.value))}>
+                  {FAMILIES.map((f, idx) => (
+                    <option key={f.fam} value={idx}>{f.family}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
             <div className="field">
-              <label>SKU</label>
+              <label>NOMBRE</label>
+              <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Ej: Vainilla Bourbon" required />
+            </div>
+
+            <span className="form-section-label">Pirámide olfativa</span>
+            <div className="row">
+              <div className="field">
+                <label>NOTAS DE SALIDA</label>
+                <input value={topNotes} onChange={(e) => setTopNotes(e.target.value)} placeholder="Bergamota, pera" required />
+              </div>
+              <div className="field">
+                <label>NOTAS DE CORAZÓN</label>
+                <input value={heartNotes} onChange={(e) => setHeartNotes(e.target.value)} placeholder="Jazmín, azahar" required />
+              </div>
+            </div>
+            <div className="field">
+              <label>NOTAS DE FONDO</label>
+              <input value={baseNotes} onChange={(e) => setBaseNotes(e.target.value)} placeholder="Almizcle, cedro" required />
+            </div>
+            <div className="field">
+              <label>DESCRIPCIÓN</label>
+              <input value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Una o dos líneas" required />
+            </div>
+
+            <span className="form-section-label">Precio y stock</span>
+            <div className="row">
+              <div className="field">
+                <label>PRECIO ($)</label>
+                <input
+                  type="number" className="mono" value={price}
+                  onChange={(e) => setPrice(e.target.value === "" ? "" : Number(e.target.value))}
+                  required
+                />
+              </div>
+              <div className="field">
+                <label>STOCK INICIAL</label>
+                <input
+                  type="number" className="mono" value={stock}
+                  onChange={(e) => setStock(e.target.value === "" ? "" : Number(e.target.value))}
+                  required
+                />
+              </div>
+            </div>
+            <div className="field">
+              <label>STOCK MÁXIMO</label>
               <input
-                className="mono"
-                value={sku}
-                onChange={(e) => setSku(e.target.value)}
-                placeholder="FR-011"
+                type="number" className="mono" value={maxStock}
+                onChange={(e) => setMaxStock(e.target.value === "" ? "" : Number(e.target.value))}
                 required
               />
             </div>
+
+            <span className="form-section-label">Imagen (opcional)</span>
             <div className="field">
-              <label>FAMILIA</label>
-              <select
-                value={familyIdx}
-                onChange={(e) => setFamilyIdx(Number(e.target.value))}
-              >
-                {FAMILIES.map((f, idx) => (
-                  <option key={f.fam} value={idx}>
-                    {f.family}
-                  </option>
-                ))}
-              </select>
+              {preview && <img src={preview} alt="Vista previa" className="edit-image-preview" />}
+              <input type="file" accept="image/png,image/jpeg,image/webp" onChange={handleFileChange} />
             </div>
+
+            {imageWarning && <p className="login-error">{imageWarning}</p>}
+            {error && <p className="login-error">{error}</p>}
           </div>
 
-          <div className="field">
-            <label>NOMBRE</label>
-            <input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Ej: Vainilla Bourbon"
-              required
-            />
-          </div>
-
-          <div className="row">
-            <div className="field">
-              <label>NOTAS DE SALIDA</label>
-              <input
-                value={topNotes}
-                onChange={(e) => setTopNotes(e.target.value)}
-                placeholder="Bergamota, pera"
-                required
-              />
-            </div>
-            <div className="field">
-              <label>NOTAS DE CORAZÓN</label>
-              <input
-                value={heartNotes}
-                onChange={(e) => setHeartNotes(e.target.value)}
-                placeholder="Jazmín, azahar"
-                required
-              />
-            </div>
-          </div>
-
-          <div className="field">
-            <label>NOTAS DE FONDO</label>
-            <input
-              value={baseNotes}
-              onChange={(e) => setBaseNotes(e.target.value)}
-              placeholder="Almizcle, cedro"
-              required
-            />
-          </div>
-
-          <div className="field">
-            <label>DESCRIPCIÓN</label>
-            <input
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Una o dos líneas"
-              required
-            />
-          </div>
-
-          <div className="row">
-            <div className="field">
-              <label>PRECIO ($)</label>
-              <input
-                type="number"
-                className="mono"
-                value={price}
-                onChange={(e) =>
-                  setPrice(e.target.value === "" ? "" : Number(e.target.value))
-                }
-                required
-              />
-            </div>
-            <div className="field">
-              <label>STOCK INICIAL</label>
-              <input
-                type="number"
-                className="mono"
-                value={stock}
-                onChange={(e) =>
-                  setStock(e.target.value === "" ? "" : Number(e.target.value))
-                }
-                required
-              />
-            </div>
-          </div>
-          <div className="field">
-            <label>STOCK MÁXIMO</label>
-            <input
-              type="number"
-              className="mono"
-              value={maxStock}
-              onChange={(e) =>
-                setMaxStock(e.target.value === "" ? "" : Number(e.target.value))
-              }
-              required
-            />
-          </div>
-
-          <div className="field">
-            <label>IMAGEN DEL PRODUCTO (opcional)</label>
-            {preview && (
-              <img
-                src={preview}
-                alt="Vista previa"
-                className="edit-image-preview"
-              />
-            )}
-            <input
-              type="file"
-              accept="image/png,image/jpeg,image/webp"
-              onChange={handleFileChange}
-            />
-          </div>
-
-          {imageWarning && <p className="login-error">{imageWarning}</p>}
-          {error && <p className="login-error">{error}</p>}
-
-          <div className="edit-actions">
+          <div className="edit-modal-footer">
             {imageWarning ? (
-              <button type="button" className="btn-primary" onClick={onClose}>
-                Cerrar
-              </button>
+              <button type="button" className="btn-primary" onClick={onClose}>Cerrar</button>
             ) : (
               <>
-                <button
-                  type="button"
-                  className="btn-ghost"
-                  onClick={onClose}
-                  disabled={saving}
-                >
-                  Cancelar
-                </button>
+                <button type="button" className="btn-ghost" onClick={onClose} disabled={saving}>Cancelar</button>
                 <button type="submit" className="btn-primary" disabled={saving}>
                   {saving ? "Creando…" : "Crear perfume"}
                 </button>

@@ -83,103 +83,74 @@ export default function EditModal({
   }
 
   return (
-    <div
-      className="modal-backdrop active"
-      onClick={(e) => e.target === e.currentTarget && onClose()}
-    >
+    <div className="modal-backdrop active" onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div className="edit-modal">
-        <h3>Editar producto</h3>
-        <span className="sku">
-          {perfume.sku} · {perfume.name}
-        </span>
+        <div className="edit-modal-header">
+          <h3>Editar producto</h3>
+          <span className="sku">{perfume.sku} · {perfume.name}</span>
+        </div>
 
-        <div className="edit-form">
-          <div className="row">
-            <div className="field">
-              <label>PRECIO DE LISTA ($)</label>
-              <input
-                type="number"
-                className="mono"
-                value={price}
-                onChange={(e) => setPrice(Number(e.target.value))}
-              />
+        <form className="edit-form" onSubmit={(e) => { e.preventDefault(); handleSave(); }}>
+          <div className="edit-modal-body">
+            <span className="form-section-label">Precio y stock</span>
+            <div className="row">
+              <div className="field">
+                <label>PRECIO DE LISTA ($)</label>
+                <input
+                  type="number" className="mono" value={price}
+                  onChange={(e) => setPrice(Number(e.target.value))}
+                />
+              </div>
+              <div className="field">
+                <label>STOCK (UNIDADES)</label>
+                <input
+                  type="number" className="mono" value={stock}
+                  onChange={(e) => setStock(Number(e.target.value))}
+                />
+              </div>
             </div>
             <div className="field">
-              <label>STOCK (UNIDADES)</label>
+              <label>PRECIO CON OFERTA ($ — vacío = sin oferta)</label>
               <input
-                type="number"
-                className="mono"
-                value={stock}
-                onChange={(e) => setStock(Number(e.target.value))}
+                type="number" className="mono" placeholder="0"
+                value={offerPrice}
+                onChange={(e) => setOfferPrice(e.target.value === "" ? "" : Number(e.target.value))}
               />
             </div>
-          </div>
-          <div className="field">
-            <label>PRECIO CON OFERTA ($ — vacío = sin oferta)</label>
-            <input
-              type="number"
-              className="mono"
-              placeholder="0"
-              value={offerPrice}
-              onChange={(e) =>
-                setOfferPrice(
-                  e.target.value === "" ? "" : Number(e.target.value),
-                )
-              }
-            />
-          </div>
 
-          {error && <p className="login-error">{error}</p>}
-
-          <div className="field">
-            <label>IMAGEN DEL PRODUCTO</label>
-            {preview && (
-              <img
-                src={preview}
-                alt={perfume.name}
-                className="edit-image-preview"
-              />
-            )}
-            <input
-              type="file"
-              accept="image/png,image/jpeg,image/webp"
-              onChange={handleFileChange}
-            />
-            <div className="edit-image-actions">
-              <button
-                type="button"
-                className="btn-ghost"
-                onClick={handleUploadImage}
-                disabled={!selectedFile || uploadingImage}
-              >
-                {uploadingImage ? "Subiendo…" : "Subir imagen"}
-              </button>
-              {perfume.imageUrl && (
+            <span className="form-section-label">Imagen</span>
+            <div className="field">
+              {preview && <img src={preview} alt={perfume.name} className="edit-image-preview" />}
+              <input type="file" accept="image/png,image/jpeg,image/webp" onChange={handleFileChange} />
+              <div className="edit-image-actions">
                 <button
-                  type="button"
-                  className="remove-offer"
-                  onClick={handleRemoveImage}
-                  disabled={uploadingImage}
+                  type="button" className="btn-ghost"
+                  onClick={handleUploadImage}
+                  disabled={!selectedFile || uploadingImage}
                 >
-                  Quitar imagen
+                  {uploadingImage ? "Subiendo…" : "Subir imagen"}
                 </button>
-              )}
+                {perfume.imageUrl && (
+                  <button
+                    type="button" className="remove-offer"
+                    onClick={handleRemoveImage} disabled={uploadingImage}
+                  >
+                    Quitar imagen
+                  </button>
+                )}
+              </div>
             </div>
+
+            {error && <p className="login-error">{error}</p>}
           </div>
 
-          <div className="edit-actions">
-            <button className="btn-ghost" onClick={onClose} disabled={saving}>
-              Cancelar
-            </button>
-            <button
-              className="btn-primary"
-              onClick={handleSave}
-              disabled={saving}
-            >
+          <div className="edit-modal-footer">
+            <button type="button" className="btn-ghost" onClick={onClose} disabled={saving}>Cancelar</button>
+            <button type="submit" className="btn-primary" disabled={saving}>
               {saving ? "Guardando…" : "Guardar cambios"}
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );

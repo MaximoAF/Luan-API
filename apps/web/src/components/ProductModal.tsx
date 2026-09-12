@@ -20,14 +20,15 @@ export default function ProductModal({ perfume, onClose }: ProductModalProps) {
     >
       <div className="product-modal">
         <div className={`pm-media fam-${perfume.fam}`}>
-          {imageSrc(perfume.imageUrl) && (
+          {imageSrc(perfume.imageUrl) ? (
             <img
               src={imageSrc(perfume.imageUrl)!}
               alt={perfume.name}
               className="pm-media-img"
             />
+          ) : (
+            <StockGauge perfume={perfume} size={80} />
           )}
-          <StockGauge perfume={perfume} size={80} />
         </div>
         <div className="pm-info">
           <button className="pm-close" onClick={onClose} aria-label="Cerrar">

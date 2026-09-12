@@ -8,6 +8,11 @@ export function waLinkForPerfume(name: string): string {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
 }
 
+export function waLinkForContact(): string {
+  const msg = `Hola, estaba interesado en Luan Essence. ¿Podrías darme más información?`;
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+}
+
 export function waLinkForUpcoming(name: string): string {
   const msg = `Hola, quiero que me avisen cuando llegue el perfume ${name} a Luan Essence.`;
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
